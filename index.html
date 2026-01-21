@@ -2,39 +2,14 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Kamer Verkenner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Test Spel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="score-panel">
-            <div id="items-found">Items: 0/5</div>
-        </div>
-        <div id="game-area">
-            <!-- Furniture items -->
-            <div class="furniture table" data-item="false"></div>
-            <div class="furniture chair" data-item="false"></div>
-            <div class="furniture couch" data-item="false"></div>
-            <div class="furniture tv" data-item="false"></div>
-            <div class="furniture cabinet" data-item="false"></div>
-            <div class="furniture rug" data-item="false"></div>
-            <div class="furniture dogbed" data-item="false"></div>
-
-            <!-- Collectible items -->
-            <div class="collectible ball-item" data-collected="false"></div>
-            <div class="collectible toy" data-collected="false"></div>
-            <div class="collectible book" data-collected="false"></div>
-            <div class="collectible remote" data-collected="false"></div>
-            <div class="collectible bone" data-collected="false"></div>
-
-            <!-- Player character -->
-            <div id="character"></div>
-        </div>
-        <div id="game-over" class="hidden">
-            <h2>Alle items gevonden!</h2>
-            <button id="restart-btn">Opnieuw spelen</button>
-        </div>
+    <div id="game">
+        <div id="character"></div>
     </div>
     <script src="game.js"></script>
 </body>
