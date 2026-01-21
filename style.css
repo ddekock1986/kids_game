@@ -7,7 +7,7 @@
 body {
     font-family: Arial, sans-serif;
     overflow: hidden;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 100%);
     touch-action: none;
 }
 
@@ -17,18 +17,18 @@ body {
     position: relative;
 }
 
-#timer {
+#score-panel {
     position: absolute;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 48px;
+    font-size: 32px;
     font-weight: bold;
     color: white;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 10px 30px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 30px;
     border-radius: 15px;
-    z-index: 10;
+    z-index: 100;
 }
 
 #game-area {
@@ -36,28 +36,284 @@ body {
     height: 100%;
     position: relative;
     overflow: hidden;
+    background: #8B7355;
 }
 
-#ball {
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle at 30% 30%, #ffeb3b, #ff9800);
-    border-radius: 50%;
+/* Character */
+#character {
+    width: 40px;
+    height: 60px;
     position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 50;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s linear;
+}
+
+#character::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #FFD700;
+    border-radius: 50%;
+    top: 0;
+    left: 5px;
+    border: 2px solid #FFA500;
+}
+
+#character::after {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background: #4169E1;
+    bottom: 0;
+    left: 2.5px;
+    border-radius: 5px;
+    border: 2px solid #1E3A8A;
+}
+
+/* Furniture - Base styles */
+.furniture {
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+/* Table */
+.table {
+    width: 120px;
+    height: 80px;
+    background: #8B4513;
+    border: 3px solid #654321;
+    border-radius: 8px;
+    left: 20%;
+    top: 20%;
+    z-index: 20;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+/* Chair */
+.chair {
+    width: 50px;
+    height: 50px;
+    background: #A0522D;
+    border: 2px solid #654321;
+    border-radius: 5px;
+    left: 30%;
+    top: 35%;
+    z-index: 19;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+}
+
+.chair::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 25px;
+    background: #8B4513;
+    border: 2px solid #654321;
+    border-radius: 5px 5px 0 0;
+    top: -25px;
+    left: -2px;
+}
+
+/* Couch */
+.couch {
+    width: 180px;
+    height: 90px;
+    background: #DC143C;
+    border: 3px solid #8B0000;
+    border-radius: 10px;
+    left: 60%;
+    top: 60%;
+    z-index: 25;
+    box-shadow: 5px 5px 12px rgba(0,0,0,0.3);
+}
+
+.couch::before {
+    content: '';
+    position: absolute;
+    width: 180px;
+    height: 30px;
+    background: #B22222;
+    border: 3px solid #8B0000;
+    border-radius: 10px 10px 0 0;
+    top: -20px;
+    left: -3px;
+}
+
+/* TV */
+.tv {
+    width: 100px;
+    height: 70px;
+    background: #2F4F4F;
+    border: 4px solid #1C1C1C;
+    border-radius: 5px;
+    left: 70%;
+    top: 15%;
+    z-index: 18;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+}
+
+.tv::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 50px;
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    border: 2px solid #000;
+    top: 8px;
+    left: 6px;
+}
+
+/* Cabinet */
+.cabinet {
+    width: 90px;
+    height: 110px;
+    background: #8B4513;
+    border: 3px solid #654321;
+    border-radius: 5px;
+    left: 10%;
+    top: 65%;
+    z-index: 30;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+}
+
+.cabinet::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 80px;
+    background: #654321;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Rug */
+.rug {
+    width: 200px;
+    height: 150px;
+    background: repeating-linear-gradient(
+        45deg,
+        #E74C3C,
+        #E74C3C 20px,
+        #C0392B 20px,
+        #C0392B 40px
+    );
+    border: 5px solid #8B4513;
+    border-radius: 10px;
+    left: 35%;
+    top: 40%;
+    z-index: 5;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Dog bed */
+.dogbed {
+    width: 80px;
+    height: 60px;
+    background: #8B4513;
+    border: 3px solid #654321;
+    border-radius: 50%;
+    left: 15%;
+    top: 40%;
+    z-index: 15;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+}
+
+.dogbed::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 40px;
+    background: #D2691E;
+    border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    cursor: grab;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    touch-action: none;
-    z-index: 5;
 }
 
-#ball:active {
-    cursor: grabbing;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+/* Collectible items */
+.collectible {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    z-index: 40;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
+.collectible:hover {
+    transform: scale(1.2);
+}
+
+.collectible[data-collected="true"] {
+    display: none;
+}
+
+.ball-item {
+    background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
+    left: 25%;
+    top: 25%;
+}
+
+.toy {
+    background: radial-gradient(circle at 30% 30%, #FF69B4, #FF1493);
+    left: 45%;
+    top: 50%;
+}
+
+.book {
+    background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+    border-radius: 3px;
+    left: 12%;
+    top: 68%;
+}
+
+.remote {
+    background: linear-gradient(135deg, #2F4F4F 0%, #1C1C1C 100%);
+    border-radius: 5px;
+    width: 25px;
+    height: 35px;
+    left: 72%;
+    top: 18%;
+}
+
+.bone {
+    background: #F5F5DC;
+    border-radius: 20px;
+    left: 18%;
+    top: 45%;
+}
+
+.bone::before,
+.bone::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #F5F5DC;
+    border-radius: 50%;
+}
+
+.bone::before {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.bone::after {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Game over screen */
 #game-over {
     position: absolute;
     top: 50%;
@@ -68,7 +324,7 @@ body {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    z-index: 20;
+    z-index: 200;
 }
 
 #game-over h2 {
@@ -80,7 +336,7 @@ body {
 #restart-btn {
     font-size: 20px;
     padding: 15px 40px;
-    background: #667eea;
+    background: #4CAF50;
     color: white;
     border: none;
     border-radius: 10px;
@@ -89,7 +345,7 @@ body {
 }
 
 #restart-btn:hover {
-    background: #764ba2;
+    background: #45a049;
 }
 
 .hidden {
