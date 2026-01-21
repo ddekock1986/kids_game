@@ -27,95 +27,58 @@ body {
     touch-action: none;
 }
 
+/* Joystick area */
+#joystick-area {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    width: 150px;
+    height: 150px;
+    z-index: 100;
+    pointer-events: all;
+}
+
+#joystick-base {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    border: 4px solid rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#joystick-stick {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 4px solid rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Base character - will be overridden by direction */
 #character {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 28px;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     transition: none;
-}
-
-/* Character head */
-#character::before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #FFE0BD;
-    border: 2px solid #000;
-    border-radius: 50%;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Character eyes */
-#character::after {
-    content: '';
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    background: #000;
-    border-radius: 50%;
-    top: 8px;
-    left: 10px;
-    box-shadow: 10px 0 0 #000;
-}
-
-/* Character body - using a pseudo element on a child div */
-#character {
-    background: #4169E1;
-    border: 2px solid #000;
-    border-radius: 4px;
-    position: relative;
-    margin-top: 10px;
-}
-
-/* Arms */
-#character {
-    box-shadow:
-        -6px 16px 0 0 #FFE0BD,
-        -6px 16px 0 2px #000,
-        26px 16px 0 0 #FFE0BD,
-        26px 16px 0 2px #000;
-}
-
-/* Legs */
-#character {
-    position: absolute;
-}
-
-/* Simplified RPG character */
-#character {
-    width: 24px;
-    height: 32px;
-    background:
-        /* Head */
-        radial-gradient(circle at 50% 8px, #FFE0BD 8px, transparent 8px),
-        /* Eyes */
-        radial-gradient(circle at 8px 8px, #000 1.5px, transparent 1.5px),
-        radial-gradient(circle at 16px 8px, #000 1.5px, transparent 1.5px),
-        /* Body */
-        linear-gradient(#4169E1 0%, #4169E1 100%);
-    background-position: 0 0, 0 0, 0 0, 0 16px;
-    background-size: 24px 16px, 24px 16px, 24px 16px, 24px 16px;
-    background-repeat: no-repeat;
-    border: 2px solid #000;
-    position: absolute;
-    image-rendering: pixelated;
-}
-
-/* Better pixel-art character */
-#character {
-    width: 20px;
-    height: 28px;
-    position: absolute;
     background: transparent;
     border: none;
+}
+
+/* Character facing DOWN */
+#character[data-direction="down"] {
     box-shadow:
-        /* Head - skin colored circle */
+        /* Head */
         6px 4px 0 0 #FFE0BD,
         7px 4px 0 0 #FFE0BD,
         8px 4px 0 0 #FFE0BD,
@@ -135,7 +98,7 @@ body {
         /* Eyes */
         7px 6px 0 0 #000,
         9px 6px 0 0 #000,
-        /* Body - blue shirt */
+        /* Body */
         6px 10px 0 0 #4169E1,
         7px 10px 0 0 #4169E1,
         8px 10px 0 0 #4169E1,
@@ -152,12 +115,12 @@ body {
         11px 12px 0 0 #4169E1,
         6px 13px 0 0 #4169E1,
         10px 13px 0 0 #4169E1,
-        /* Arms - skin */
+        /* Arms */
         4px 12px 0 0 #FFE0BD,
         12px 12px 0 0 #FFE0BD,
         4px 13px 0 0 #FFE0BD,
         12px 13px 0 0 #FFE0BD,
-        /* Legs - brown pants */
+        /* Legs */
         6px 14px 0 0 #8B4513,
         7px 14px 0 0 #8B4513,
         9px 14px 0 0 #8B4513,
@@ -168,7 +131,308 @@ body {
         10px 15px 0 0 #8B4513,
         6px 16px 0 0 #8B4513,
         10px 16px 0 0 #8B4513,
-        /* Shoes - black */
+        /* Shoes */
+        5px 17px 0 0 #000,
+        6px 17px 0 0 #000,
+        7px 17px 0 0 #000,
+        9px 17px 0 0 #000,
+        10px 17px 0 0 #000,
+        11px 17px 0 0 #000;
+}
+
+/* Character facing UP */
+#character[data-direction="up"] {
+    box-shadow:
+        /* Head - back of head (brown hair) */
+        6px 4px 0 0 #8B4513,
+        7px 4px 0 0 #8B4513,
+        8px 4px 0 0 #8B4513,
+        9px 4px 0 0 #8B4513,
+        10px 4px 0 0 #8B4513,
+        5px 5px 0 0 #8B4513,
+        11px 5px 0 0 #8B4513,
+        5px 6px 0 0 #8B4513,
+        11px 6px 0 0 #8B4513,
+        5px 7px 0 0 #8B4513,
+        11px 7px 0 0 #8B4513,
+        6px 8px 0 0 #8B4513,
+        7px 8px 0 0 #8B4513,
+        8px 8px 0 0 #8B4513,
+        9px 8px 0 0 #8B4513,
+        10px 8px 0 0 #8B4513,
+        /* Body */
+        6px 10px 0 0 #4169E1,
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        10px 10px 0 0 #4169E1,
+        5px 11px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        11px 11px 0 0 #4169E1,
+        5px 12px 0 0 #4169E1,
+        11px 12px 0 0 #4169E1,
+        6px 13px 0 0 #4169E1,
+        10px 13px 0 0 #4169E1,
+        /* Arms */
+        4px 12px 0 0 #FFE0BD,
+        12px 12px 0 0 #FFE0BD,
+        4px 13px 0 0 #FFE0BD,
+        12px 13px 0 0 #FFE0BD,
+        /* Legs */
+        6px 14px 0 0 #8B4513,
+        7px 14px 0 0 #8B4513,
+        9px 14px 0 0 #8B4513,
+        10px 14px 0 0 #8B4513,
+        6px 15px 0 0 #8B4513,
+        7px 15px 0 0 #8B4513,
+        9px 15px 0 0 #8B4513,
+        10px 15px 0 0 #8B4513,
+        6px 16px 0 0 #8B4513,
+        10px 16px 0 0 #8B4513,
+        /* Shoes */
+        5px 17px 0 0 #000,
+        6px 17px 0 0 #000,
+        7px 17px 0 0 #000,
+        9px 17px 0 0 #000,
+        10px 17px 0 0 #000,
+        11px 17px 0 0 #000;
+}
+
+/* Character facing LEFT */
+#character[data-direction="left"] {
+    box-shadow:
+        /* Head */
+        7px 4px 0 0 #FFE0BD,
+        8px 4px 0 0 #FFE0BD,
+        9px 4px 0 0 #FFE0BD,
+        10px 4px 0 0 #FFE0BD,
+        6px 5px 0 0 #FFE0BD,
+        7px 5px 0 0 #FFE0BD,
+        8px 5px 0 0 #FFE0BD,
+        9px 5px 0 0 #FFE0BD,
+        10px 5px 0 0 #FFE0BD,
+        6px 6px 0 0 #FFE0BD,
+        7px 6px 0 0 #FFE0BD,
+        8px 6px 0 0 #FFE0BD,
+        9px 6px 0 0 #FFE0BD,
+        10px 6px 0 0 #FFE0BD,
+        6px 7px 0 0 #FFE0BD,
+        7px 7px 0 0 #FFE0BD,
+        8px 7px 0 0 #FFE0BD,
+        9px 7px 0 0 #FFE0BD,
+        10px 7px 0 0 #FFE0BD,
+        7px 8px 0 0 #FFE0BD,
+        8px 8px 0 0 #FFE0BD,
+        9px 8px 0 0 #FFE0BD,
+        /* Eye */
+        7px 6px 0 0 #000,
+        /* Body */
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        6px 12px 0 0 #4169E1,
+        7px 12px 0 0 #4169E1,
+        8px 12px 0 0 #4169E1,
+        9px 12px 0 0 #4169E1,
+        7px 13px 0 0 #4169E1,
+        8px 13px 0 0 #4169E1,
+        /* Arm */
+        5px 12px 0 0 #FFE0BD,
+        5px 13px 0 0 #FFE0BD,
+        /* Legs */
+        7px 14px 0 0 #8B4513,
+        8px 14px 0 0 #8B4513,
+        7px 15px 0 0 #8B4513,
+        8px 15px 0 0 #8B4513,
+        7px 16px 0 0 #8B4513,
+        8px 16px 0 0 #8B4513,
+        /* Shoes */
+        6px 17px 0 0 #000,
+        7px 17px 0 0 #000,
+        8px 17px 0 0 #000,
+        9px 17px 0 0 #000;
+}
+
+/* Character facing RIGHT */
+#character[data-direction="right"] {
+    box-shadow:
+        /* Head */
+        6px 4px 0 0 #FFE0BD,
+        7px 4px 0 0 #FFE0BD,
+        8px 4px 0 0 #FFE0BD,
+        9px 4px 0 0 #FFE0BD,
+        6px 5px 0 0 #FFE0BD,
+        7px 5px 0 0 #FFE0BD,
+        8px 5px 0 0 #FFE0BD,
+        9px 5px 0 0 #FFE0BD,
+        10px 5px 0 0 #FFE0BD,
+        6px 6px 0 0 #FFE0BD,
+        7px 6px 0 0 #FFE0BD,
+        8px 6px 0 0 #FFE0BD,
+        9px 6px 0 0 #FFE0BD,
+        10px 6px 0 0 #FFE0BD,
+        6px 7px 0 0 #FFE0BD,
+        7px 7px 0 0 #FFE0BD,
+        8px 7px 0 0 #FFE0BD,
+        9px 7px 0 0 #FFE0BD,
+        10px 7px 0 0 #FFE0BD,
+        7px 8px 0 0 #FFE0BD,
+        8px 8px 0 0 #FFE0BD,
+        9px 8px 0 0 #FFE0BD,
+        /* Eye */
+        9px 6px 0 0 #000,
+        /* Body */
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        7px 12px 0 0 #4169E1,
+        8px 12px 0 0 #4169E1,
+        9px 12px 0 0 #4169E1,
+        10px 12px 0 0 #4169E1,
+        8px 13px 0 0 #4169E1,
+        9px 13px 0 0 #4169E1,
+        /* Arm */
+        11px 12px 0 0 #FFE0BD,
+        11px 13px 0 0 #FFE0BD,
+        /* Legs */
+        8px 14px 0 0 #8B4513,
+        9px 14px 0 0 #8B4513,
+        8px 15px 0 0 #8B4513,
+        9px 15px 0 0 #8B4513,
+        8px 16px 0 0 #8B4513,
+        9px 16px 0 0 #8B4513,
+        /* Shoes */
+        7px 17px 0 0 #000,
+        8px 17px 0 0 #000,
+        9px 17px 0 0 #000,
+        10px 17px 0 0 #000;
+}
+
+/* Diagonal directions use same sprites as cardinal directions for now */
+#character[data-direction="up-left"],
+#character[data-direction="up-right"] {
+    box-shadow:
+        /* Same as UP */
+        6px 4px 0 0 #8B4513,
+        7px 4px 0 0 #8B4513,
+        8px 4px 0 0 #8B4513,
+        9px 4px 0 0 #8B4513,
+        10px 4px 0 0 #8B4513,
+        5px 5px 0 0 #8B4513,
+        11px 5px 0 0 #8B4513,
+        5px 6px 0 0 #8B4513,
+        11px 6px 0 0 #8B4513,
+        5px 7px 0 0 #8B4513,
+        11px 7px 0 0 #8B4513,
+        6px 8px 0 0 #8B4513,
+        7px 8px 0 0 #8B4513,
+        8px 8px 0 0 #8B4513,
+        9px 8px 0 0 #8B4513,
+        10px 8px 0 0 #8B4513,
+        6px 10px 0 0 #4169E1,
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        10px 10px 0 0 #4169E1,
+        5px 11px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        11px 11px 0 0 #4169E1,
+        5px 12px 0 0 #4169E1,
+        11px 12px 0 0 #4169E1,
+        6px 13px 0 0 #4169E1,
+        10px 13px 0 0 #4169E1,
+        4px 12px 0 0 #FFE0BD,
+        12px 12px 0 0 #FFE0BD,
+        4px 13px 0 0 #FFE0BD,
+        12px 13px 0 0 #FFE0BD,
+        6px 14px 0 0 #8B4513,
+        7px 14px 0 0 #8B4513,
+        9px 14px 0 0 #8B4513,
+        10px 14px 0 0 #8B4513,
+        6px 15px 0 0 #8B4513,
+        7px 15px 0 0 #8B4513,
+        9px 15px 0 0 #8B4513,
+        10px 15px 0 0 #8B4513,
+        6px 16px 0 0 #8B4513,
+        10px 16px 0 0 #8B4513,
+        5px 17px 0 0 #000,
+        6px 17px 0 0 #000,
+        7px 17px 0 0 #000,
+        9px 17px 0 0 #000,
+        10px 17px 0 0 #000,
+        11px 17px 0 0 #000;
+}
+
+#character[data-direction="down-left"],
+#character[data-direction="down-right"] {
+    box-shadow:
+        /* Same as DOWN */
+        6px 4px 0 0 #FFE0BD,
+        7px 4px 0 0 #FFE0BD,
+        8px 4px 0 0 #FFE0BD,
+        9px 4px 0 0 #FFE0BD,
+        10px 4px 0 0 #FFE0BD,
+        5px 5px 0 0 #FFE0BD,
+        11px 5px 0 0 #FFE0BD,
+        5px 6px 0 0 #FFE0BD,
+        11px 6px 0 0 #FFE0BD,
+        5px 7px 0 0 #FFE0BD,
+        11px 7px 0 0 #FFE0BD,
+        6px 8px 0 0 #FFE0BD,
+        7px 8px 0 0 #FFE0BD,
+        8px 8px 0 0 #FFE0BD,
+        9px 8px 0 0 #FFE0BD,
+        10px 8px 0 0 #FFE0BD,
+        7px 6px 0 0 #000,
+        9px 6px 0 0 #000,
+        6px 10px 0 0 #4169E1,
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        10px 10px 0 0 #4169E1,
+        5px 11px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        11px 11px 0 0 #4169E1,
+        5px 12px 0 0 #4169E1,
+        11px 12px 0 0 #4169E1,
+        6px 13px 0 0 #4169E1,
+        10px 13px 0 0 #4169E1,
+        4px 12px 0 0 #FFE0BD,
+        12px 12px 0 0 #FFE0BD,
+        4px 13px 0 0 #FFE0BD,
+        12px 13px 0 0 #FFE0BD,
+        6px 14px 0 0 #8B4513,
+        7px 14px 0 0 #8B4513,
+        9px 14px 0 0 #8B4513,
+        10px 14px 0 0 #8B4513,
+        6px 15px 0 0 #8B4513,
+        7px 15px 0 0 #8B4513,
+        9px 15px 0 0 #8B4513,
+        10px 15px 0 0 #8B4513,
+        6px 16px 0 0 #8B4513,
+        10px 16px 0 0 #8B4513,
         5px 17px 0 0 #000,
         6px 17px 0 0 #000,
         7px 17px 0 0 #000,
