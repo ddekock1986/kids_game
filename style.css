@@ -13,396 +13,166 @@ html, body {
 }
 
 body {
-    background: #000;
-    font-family: 'Courier New', monospace;
+    background: #87CEEB;
+    font-family: Arial, sans-serif;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-}
-
-#hud {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 10px;
-    z-index: 100;
-    text-align: center;
-    color: #fff;
-    font-size: 20px;
-    border-bottom: 3px solid #fff;
 }
 
 #game {
     width: 100vw;
     height: 100vh;
     position: relative;
-    overflow: hidden;
+    background: #8B7355;
     touch-action: none;
 }
 
-#room {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: #D4A574;
-    background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 31px, #C4956A 31px, #C4956A 32px),
-        repeating-linear-gradient(90deg, #E8C9A0 0px, #E8C9A0 96px, #C4956A 96px, #C4956A 128px, #D4A574 128px, #D4A574 160px);
-}
-
-/* Character - 32x32 grid-based */
 #character {
     width: 32px;
     height: 32px;
     position: absolute;
-    z-index: 50;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     transition: none;
 }
 
-/* Character facing DOWN */
-#character[data-direction="down"] {
-    background: #FFE0BD;
-    border: 2px solid #000;
-    border-radius: 50% 50% 0 0;
-    position: relative;
-}
-
-#character[data-direction="down"]::before {
-    content: '';
-    position: absolute;
-    width: 28px;
-    height: 16px;
-    background: #4169E1;
-    bottom: -18px;
-    left: 0;
-    border: 2px solid #000;
-    border-top: none;
-}
-
-#character[data-direction="down"]::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #000;
-    top: 8px;
-    left: 8px;
-    box-shadow: 12px 0 0 #000, 6px 6px 0 #000;
-}
-
-/* Character facing UP */
-#character[data-direction="up"] {
-    background: #8B4513;
-    border: 2px solid #000;
-    border-radius: 50% 50% 0 0;
-    position: relative;
-}
-
-#character[data-direction="up"]::before {
-    content: '';
-    position: absolute;
-    width: 28px;
-    height: 16px;
-    background: #4169E1;
-    bottom: -18px;
-    left: 0;
-    border: 2px solid #000;
-    border-top: none;
-}
-
-/* Character facing LEFT */
-#character[data-direction="left"] {
-    background: #FFE0BD;
-    border: 2px solid #000;
-    border-radius: 50% 0 0 50%;
-    position: relative;
-}
-
-#character[data-direction="left"]::before {
+/* Character head */
+#character::before {
     content: '';
     position: absolute;
     width: 20px;
-    height: 16px;
-    background: #4169E1;
-    bottom: -18px;
-    left: 4px;
-    border: 2px solid #000;
-    border-top: none;
-}
-
-#character[data-direction="left"]::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #000;
-    top: 10px;
-    left: 4px;
-}
-
-/* Character facing RIGHT */
-#character[data-direction="right"] {
+    height: 20px;
     background: #FFE0BD;
     border: 2px solid #000;
-    border-radius: 0 50% 50% 0;
-    position: relative;
-}
-
-#character[data-direction="right"]::before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 16px;
-    background: #4169E1;
-    bottom: -18px;
-    left: 4px;
-    border: 2px solid #000;
-    border-top: none;
-}
-
-#character[data-direction="right"]::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #000;
-    top: 10px;
-    right: 4px;
-}
-
-/* Furniture objects */
-.furniture {
-    position: absolute;
-    border: 2px solid #000;
-    image-rendering: pixelated;
-}
-
-/* Bed */
-.bed {
-    width: 96px;
-    height: 64px;
-    background: #FF69B4;
-    border: 3px solid #000;
-    box-shadow: inset 0 0 0 3px #FFB6C1;
-}
-
-.bed::before {
-    content: '';
-    position: absolute;
-    width: 96px;
-    height: 20px;
-    background: #FFF;
-    top: 0;
-    left: -3px;
-    border-bottom: 3px solid #000;
-}
-
-/* Toy chest */
-.toy-chest {
-    width: 64px;
-    height: 48px;
-    background: #8B4513;
-    border: 3px solid #000;
-}
-
-.toy-chest::before {
-    content: '';
-    position: absolute;
-    width: 64px;
-    height: 6px;
-    background: #654321;
-    top: 50%;
-    left: -3px;
-    transform: translateY(-50%);
-}
-
-.toy-chest::after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 8px;
-    background: #FFD700;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #000;
-}
-
-/* Bookshelf */
-.bookshelf {
-    width: 64px;
-    height: 96px;
-    background: #A0522D;
-    border: 3px solid #000;
-}
-
-.bookshelf::before {
-    content: '';
-    position: absolute;
-    width: 58px;
-    height: 2px;
-    background: #000;
-    top: 32px;
-    left: 0;
-    box-shadow: 0 32px 0 #000;
-}
-
-.bookshelf::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 20px;
-    background: #DC143C;
-    top: 8px;
-    left: 8px;
-    border: 2px solid #000;
-    box-shadow: 16px 0 0 #4169E1, 16px 0 0 2px #000, 32px 0 0 #2E8B57, 32px 0 0 2px #000;
-}
-
-/* Desk */
-.desk {
-    width: 96px;
-    height: 64px;
-    background: #D2691E;
-    border: 3px solid #000;
-}
-
-.desk::before {
-    content: '';
-    position: absolute;
-    width: 92px;
-    height: 40px;
-    background: #8B4513;
-    bottom: -3px;
-    left: -3px;
-    border: 3px solid #000;
-    border-top: none;
-}
-
-/* Closet */
-.closet {
-    width: 64px;
-    height: 96px;
-    background: #F5DEB3;
-    border: 3px solid #000;
-}
-
-.closet::before {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 90px;
-    background: #000;
+    border-radius: 50%;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.closet::after {
+/* Character eyes */
+#character::after {
     content: '';
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 3px;
+    height: 3px;
     background: #000;
     border-radius: 50%;
-    top: 50%;
-    left: 20px;
-    box-shadow: 24px 0 0 #000;
+    top: 8px;
+    left: 10px;
+    box-shadow: 10px 0 0 #000;
 }
 
-/* Rug */
-.rug {
-    width: 128px;
-    height: 96px;
-    background: repeating-linear-gradient(
-        90deg,
-        #DC143C 0px,
-        #DC143C 16px,
-        #8B0000 16px,
-        #8B0000 32px
-    );
-    border: 4px solid #654321;
-}
-
-/* Collectible items */
-.collectible {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    z-index: 40;
+/* Character body - using a pseudo element on a child div */
+#character {
+    background: #4169E1;
     border: 2px solid #000;
-    cursor: pointer;
-    animation: float 2s ease-in-out infinite;
+    border-radius: 4px;
+    position: relative;
+    margin-top: 10px;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-4px); }
+/* Arms */
+#character {
+    box-shadow:
+        -6px 16px 0 0 #FFE0BD,
+        -6px 16px 0 2px #000,
+        26px 16px 0 0 #FFE0BD,
+        26px 16px 0 2px #000;
 }
 
-.collectible.collected {
-    display: none;
+/* Legs */
+#character {
+    position: absolute;
 }
 
-.item-ball {
-    background: #FFD700;
-    border-radius: 50%;
+/* Simplified RPG character */
+#character {
+    width: 24px;
+    height: 32px;
+    background:
+        /* Head */
+        radial-gradient(circle at 50% 8px, #FFE0BD 8px, transparent 8px),
+        /* Eyes */
+        radial-gradient(circle at 8px 8px, #000 1.5px, transparent 1.5px),
+        radial-gradient(circle at 16px 8px, #000 1.5px, transparent 1.5px),
+        /* Body */
+        linear-gradient(#4169E1 0%, #4169E1 100%);
+    background-position: 0 0, 0 0, 0 0, 0 16px;
+    background-size: 24px 16px, 24px 16px, 24px 16px, 24px 16px;
+    background-repeat: no-repeat;
+    border: 2px solid #000;
+    position: absolute;
+    image-rendering: pixelated;
 }
 
-.item-book {
-    background: #DC143C;
-}
-
-.item-puzzle {
-    background: #4169E1;
-}
-
-.item-toy-car {
-    background: #FF4500;
-}
-
-.item-teddy {
-    background: #8B4513;
-    border-radius: 50%;
-}
-
-/* Win screen */
-#win-screen {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 30px;
-    border: 4px solid #000;
-    text-align: center;
-    z-index: 200;
-    box-shadow: 8px 8px 0 rgba(0,0,0,0.5);
-}
-
-#win-screen h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #000;
-}
-
-#restart-btn {
-    font-size: 18px;
-    padding: 10px 30px;
-    background: #4169E1;
-    color: #fff;
-    border: 3px solid #000;
-    cursor: pointer;
-    font-family: 'Courier New', monospace;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
-}
-
-#restart-btn:active {
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
-    transform: translate(2px, 2px);
-}
-
-.hidden {
-    display: none;
+/* Better pixel-art character */
+#character {
+    width: 20px;
+    height: 28px;
+    position: absolute;
+    background: transparent;
+    border: none;
+    box-shadow:
+        /* Head - skin colored circle */
+        6px 4px 0 0 #FFE0BD,
+        7px 4px 0 0 #FFE0BD,
+        8px 4px 0 0 #FFE0BD,
+        9px 4px 0 0 #FFE0BD,
+        10px 4px 0 0 #FFE0BD,
+        5px 5px 0 0 #FFE0BD,
+        11px 5px 0 0 #FFE0BD,
+        5px 6px 0 0 #FFE0BD,
+        11px 6px 0 0 #FFE0BD,
+        5px 7px 0 0 #FFE0BD,
+        11px 7px 0 0 #FFE0BD,
+        6px 8px 0 0 #FFE0BD,
+        7px 8px 0 0 #FFE0BD,
+        8px 8px 0 0 #FFE0BD,
+        9px 8px 0 0 #FFE0BD,
+        10px 8px 0 0 #FFE0BD,
+        /* Eyes */
+        7px 6px 0 0 #000,
+        9px 6px 0 0 #000,
+        /* Body - blue shirt */
+        6px 10px 0 0 #4169E1,
+        7px 10px 0 0 #4169E1,
+        8px 10px 0 0 #4169E1,
+        9px 10px 0 0 #4169E1,
+        10px 10px 0 0 #4169E1,
+        5px 11px 0 0 #4169E1,
+        6px 11px 0 0 #4169E1,
+        7px 11px 0 0 #4169E1,
+        8px 11px 0 0 #4169E1,
+        9px 11px 0 0 #4169E1,
+        10px 11px 0 0 #4169E1,
+        11px 11px 0 0 #4169E1,
+        5px 12px 0 0 #4169E1,
+        11px 12px 0 0 #4169E1,
+        6px 13px 0 0 #4169E1,
+        10px 13px 0 0 #4169E1,
+        /* Arms - skin */
+        4px 12px 0 0 #FFE0BD,
+        12px 12px 0 0 #FFE0BD,
+        4px 13px 0 0 #FFE0BD,
+        12px 13px 0 0 #FFE0BD,
+        /* Legs - brown pants */
+        6px 14px 0 0 #8B4513,
+        7px 14px 0 0 #8B4513,
+        9px 14px 0 0 #8B4513,
+        10px 14px 0 0 #8B4513,
+        6px 15px 0 0 #8B4513,
+        7px 15px 0 0 #8B4513,
+        9px 15px 0 0 #8B4513,
+        10px 15px 0 0 #8B4513,
+        6px 16px 0 0 #8B4513,
+        10px 16px 0 0 #8B4513,
+        /* Shoes - black */
+        5px 17px 0 0 #000,
+        6px 17px 0 0 #000,
+        7px 17px 0 0 #000,
+        9px 17px 0 0 #000,
+        10px 17px 0 0 #000,
+        11px 17px 0 0 #000;
 }
